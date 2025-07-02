@@ -6,25 +6,27 @@ function App() {
   const [convertedEUR, setConvertedEUR] = useState('');
 
   const handleConvert = () => {
-    const url = `http://localhost:5000/api/convert`; // change to live API later
+  if (!amount || isNaN(amount)) {
+    alert('Please enter a valid amount in INR');
+    return;
+  }
 
-    fetch(url)
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.success) {
-          const usdResult = amount * data.rates.USD;
-          const eurResult = amount * data.rates.EUR;
-
-          setConvertedUSD(usdResult.toFixed(2));
-          setConvertedEUR(eurResult.toFixed(2));
-        } else {
-          alert('API Error');
-        }
-      })
-      .catch((error) => {
-        alert('Network Error: ' + error.message);
-      });
-  };
+  fetch('https://currency-converter-backend-ua98.onrender.com/api/convert') // ✅ UPDATED HERE
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.success) {
+        const usd = amount * data.rates.USD;
+        const eur = amount * data.rates.EUR;
+        setConvertedUSD(usd.toFixed(2));
+        setConvertedEUR(eur.toFixed(2));
+      } else {
+        alert('API Error: Invalid response');
+      }
+    })
+    .catch((err) => {
+      alert('Network Error: ' + err.message);
+    });
+};
 
   return (
     <div style={{ textAlign: 'center', marginTop: '50px' }}>
