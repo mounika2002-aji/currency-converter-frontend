@@ -11,7 +11,7 @@ function App() {
     return;
   }
 
-  fetch('https://currency-converter-backend-ua98.onrender.com/api/convert') // ✅ UPDATED HERE
+  fetch('https://currency-converter-backend-ua98.onrender.com/api/convert')// ✅ UPDATED HERE
     .then((res) => res.json())
     .then((data) => {
       if (data.success) {
